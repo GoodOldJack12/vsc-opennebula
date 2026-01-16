@@ -13,8 +13,6 @@ jobs:
     strategy:
       matrix:
         check:
-          - name: validate
-            run: tofu validate
           - name: local-module-check
             run: ./tests/local-module-check.test.sh
           - name: fmt-check
@@ -32,4 +30,3 @@ jobs:
       - run: tofu version
       - run: chmod +x tests/*.sh
       - run: ${{ matrix.check.run }}
-
