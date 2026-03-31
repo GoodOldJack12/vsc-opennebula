@@ -2,7 +2,8 @@ data "opennebula_user" "me" {
   name = chomp(split(":", file("~/.one/one_auth"))[0])
 }
 data "opennebula_group" "primary" {
-  id = data.opennebula_user.me.primary_group
+  name = var.group != "" ? var.group : null
+  id = var.group == "" ? data.opennebula_user.me.primary_group : null
 }
 
 locals {
@@ -62,11 +63,11 @@ resource "opennebula_virtual_router_instance" "main" {
 }
 
 data "opennebula_virtual_network" "external" {
-  name = "altaria.vip"
+  name = "${data.opennebula_group.primary.name}_public"
 }
 
 data "opennebula_virtual_network" "internal" {
-  name = "altaria.test"
+  name = "${data.opennebula_group.primary.name}_vm"
 }
 
 resource "opennebula_virtual_router_nic" "external" {

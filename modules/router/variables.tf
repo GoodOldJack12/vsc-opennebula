@@ -32,3 +32,9 @@ variable "port_forwards" {
   }
   description = "List of port forwarding rules."
 }
+
+variable "group" {
+  default = ""
+  description = "Opennebula group to create this router for. There should only be ONE router per group."
+  type = string
+}

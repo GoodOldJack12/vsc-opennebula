@@ -90,3 +90,8 @@ variable "is_windows" {
   description = "Set true if image is windows based"
   type        = bool
 }
+variable "group" {
+  default = ""
+  description = "Opennebula group to create the virtual machine for."
+  type = string
+}

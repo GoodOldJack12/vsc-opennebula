@@ -1,8 +1,11 @@
 data "opennebula_virtual_network" "main" {
-  name = "altaria.test"
+  name = "${data.opennebula_group.primary.name}_vm"
 }
 data "opennebula_virtual_network" "vsc" {
-  name = "altaria.vsc"
+  name = "${data.opennebula_group.primary.name}_vsc"
+  lifecycle {
+    enabled = var.vsc
+  }
 }
 resource "opennebula_security_group" "main" {
   name        = "${var.vm_name}-security-group"
