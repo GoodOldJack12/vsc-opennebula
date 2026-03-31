@@ -29,6 +29,6 @@ locals {
     https = 443
     rdp   = 3389
   }
-  ssh-command = "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -J snorlax ${local.ssh-user}@${opennebula_virtual_machine.main.ip}"
-  rdp-command = var.is_windows ? "ssh -A snorlax -fL 3389:${opennebula_virtual_machine.main.ip}:3389 sleep 2;xfreerdp /dynamic-resolution /v:127.0.0.1 /p:${random_pet.windows[0].id} /u:admin" : ""
+  ssh-command = "ssh ${local.ssh-user}@${opennebula_virtual_machine.main.ip}"
+  rdp-command = var.is_windows ? "xfreerdp /dynamic-resolution /v:${opennebula_virtual_machine.main.ip} /p:${random_pet.windows[0].id} /u:admin" : ""
 }
