@@ -31,7 +31,7 @@ variable "vcpu" {
 variable "template" {
   description = "Template to apply to the VM. Default should be OK unless you need a GPU."
   type        = string
-  default     = "TestFlavor" # To be changed
+  default     = "UserDefault" # To be changed
 }
 variable "vsc" {
   description = "Enable VSC network."
