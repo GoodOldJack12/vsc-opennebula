@@ -30,7 +30,7 @@ locals {
 }
 
 data "opennebula_template" "base" {
-  name = "vr1"
+  name = "vr"
 }
 
 resource "opennebula_virtual_router" "main" {
@@ -38,7 +38,7 @@ resource "opennebula_virtual_router" "main" {
   instance_template_id = data.opennebula_template.base.id
 }
 data "opennebula_image" "image" {
-  name = "vr1"
+  name = "vr"
 }
 # Resource to help trigger a replace
 resource "terraform_data" "port-forwards" {
