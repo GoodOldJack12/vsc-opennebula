@@ -1,5 +1,5 @@
 locals {
-  windows_start_script = "net user Admin ${try(random_pet.windows[0].id, "")}"
+  windows_start_script = "net user Admin ${try(random_pet.windows.id, "")}"
   base_context = {
     NETWORK        = "YES"
     SET_HOSTNAME   = "${var.vm_name}"
@@ -7,7 +7,7 @@ locals {
     GROW_ROOTFS    = "YES"
   }
   windows_context = {
-    START_SCRIPT = "net user Admin ${try(random_pet.windows[0].id, "")}"
+    START_SCRIPT = "net user Admin ${try(random_pet.windows.id, "")}"
   }
   linux_context = {
     START_SCRIPT = "${var.start_script}"

@@ -30,5 +30,5 @@ locals {
     rdp   = 3389
   }
   ssh-command = "ssh ${local.ssh-user}@${opennebula_virtual_machine.main.ip}"
-  rdp-command = var.is_windows ? "xfreerdp /dynamic-resolution /v:${opennebula_virtual_machine.main.ip} /p:${random_pet.windows[0].id} /u:admin" : ""
+  rdp-command = var.is_windows ? "xfreerdp /dynamic-resolution /v:${opennebula_virtual_machine.main.ip} /p:${random_pet.windows.id} /u:admin" : ""
 }

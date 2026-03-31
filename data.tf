@@ -13,6 +13,8 @@ data "opennebula_template" "template" {
   name = var.template
 }
 resource "random_pet" "windows" {
-  count  = var.is_windows ? 1 : 0
   length = 3
+  lifecycle {
+    enabled = var.is_windows
+  }
 }
