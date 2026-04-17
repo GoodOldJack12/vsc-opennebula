@@ -79,10 +79,16 @@ resource "opennebula_virtual_router_nic" "external" {
   model             = "virtio"
 }
 
+data "opennebula_virtual_network_address_range" "internal" {
+  virtual_network_id = data.opennebula_virtual_network.internal.id
+  id                 = "1"
+}
+
 resource "opennebula_virtual_router_nic" "internal" {
   floating_ip       = true
   virtual_router_id = opennebula_virtual_router.main.id
   network_id        = data.opennebula_virtual_network.internal.id
   depends_on        = [opennebula_virtual_router_nic.external]
   model             = "virtio"
+  ip                = data.opennebula_virtual_network_address_range.internal.ip4
 }
