@@ -22,12 +22,6 @@ variable "cpu" {
   description = "Real CPU cores allocated to the VM"
   default     = null
 }
-variable "vcpu" {
-  type        = number
-  description = "Virtual CPUs that the VM will see. DOES improve multi-thread performance."
-  default     = null
-
-}
 variable "template" {
   description = "Template to apply to the VM. Default should be OK unless you need a GPU."
   type        = string
