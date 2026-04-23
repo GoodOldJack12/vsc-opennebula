@@ -54,52 +54,7 @@ variable "start_script" {
     error_message = "start_script is incompatible with Windows!"
   }
 }
-variable "firewall_rules" {
-  description = "Firewall rules per network ('vm' or 'vsc')"
-  type = map(list(object({
-    protocol  = string
-    rule_type = optional(string, "INBOUND")
-    range     = string
-  })))
-  default     = {"vm" = [], "vsc" = []}
-  validation {
-    condition = alltrue([
-      for nic, rules in var.firewall_rules : alltrue([
-        for v in rules : can(regex("^(INBOUND|OUTBOUND)$", v.rule_type))
-      ])
-    ])
-    error_message = "rule_type must be INBOUND or OUTBOUND"
-  }
-  validation {
-    condition = alltrue([
-      for nic, rules in var.firewall_rules : alltrue([
-        for v in rules : can(regex("^(ALL|TCP|UDP|ICMP|IPSEC)$", v.protocol))
-      ])
-    ])
-    error_message = "protocol must be ALL, TCP, UDP, ICMP or IPSEC"
-  }
-  validation {
-    condition     = alltrue([for k in keys(var.firewall_rules) : contains(["vm", "vsc"], k)])
-    error_message = "Network name must be one of: vm, vsc"
-  }
-}
-variable "firewall_services" {
-  description = "Quick alternative to firewall_rules for known services per network ('vm' or 'vsc')"
-  type        = map(list(string))
-  default     = {"vm" = [], "vsc" = []}
-  validation {
-    condition = alltrue([
-      for nic, services in var.firewall_services : alltrue([
-        for s in services : contains(keys(local.service-templates), s)
-      ])
-    ])
-    error_message = "Unknown service! Valid services: ${join(",", keys(local.service-templates))}"
-  }
-  validation {
-    condition     = alltrue([for k in keys(var.firewall_services) : contains(["vm", "vsc"], k)])
-    error_message = "Network must be one of: primary, secondary"
-  }
-}
+
 variable "is_windows" {
   description = "Set true if image is windows based"
   type        = bool

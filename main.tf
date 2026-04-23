@@ -45,13 +45,11 @@ resource "opennebula_virtual_machine" "main" {
 
   nic {
     network_id      = data.opennebula_virtual_network.main.id
-    security_groups = [opennebula_security_group.main.id]
   }
   dynamic "nic" {
     for_each = var.vsc ? [0] : []
     content {
       network_id      = data.opennebula_virtual_network.vsc.id
-      security_groups = [opennebula_security_group.vsc.id]
     }
   }
   dynamic "template_section" {
