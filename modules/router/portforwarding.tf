@@ -35,7 +35,7 @@ locals {
       internal_ip   = coalesce(pf.internal_ip, var.access_vm.ip)
       internal_port = coalesce(pf.internal_port, pf.external_port)
       external_port = pf.external_port
-      external_ip   = try(pf.type, "public") == "vsc" ? "<ETH2_EP0>" : "<ETH0_EP0>"
+      external_ip   = "<ETH0_EP0>"
     }
   ]
   port_forward_context = {

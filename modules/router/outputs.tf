@@ -7,14 +7,10 @@ output "services_list" {
   value = merge(
     { "Primary VM" = local.primary_vm_output },
     { for name, svc in var.port_forwards :
-      "${name}" => "${ svc.network == "public" ? opennebula_virtual_router_nic.external.ip : opennebula_virtual_router_nic.vsc.ip}:${svc.external_port}"
+      "${name}" => "${opennebula_virtual_router_nic.external.ip}:${svc.external_port}"
     }
   )
 }
 output "private-ip" {
   value = opennebula_virtual_router_nic.internal.ip
-}
-output "vsc-ip" {
-  description = "Outputs the VSC IP of the router (if enabled)"
-  value = try(opennebula_virtual_router_nic.vsc.ip,"N/A")
 }
