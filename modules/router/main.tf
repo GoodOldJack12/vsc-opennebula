@@ -23,8 +23,8 @@ locals {
     ONEAPP_VNF_LB_ENABLED             = "NO",
     # NAT
     ONEAPP_VNF_NAT4_ENABLED        = "YES"
-    ONEAPP_VNF_NAT4_INTERFACES_OUT = "eth0"
-    ONEAPP_VNF_ROUTER4_INTERFACES  = "eth0 eth1"
+    ONEAPP_VNF_NAT4_INTERFACES_OUT = "eth0 eth2"
+    ONEAPP_VNF_ROUTER4_INTERFACES  = "eth0 eth1 eth2"
   }
   final_context = merge(local.base_context, local.network_context, local.port_forward_context)
 }
@@ -70,6 +70,13 @@ data "opennebula_virtual_network" "internal" {
   name = "${data.opennebula_group.primary.name}_vm"
 }
 
+data "opennebula_virtual_network" "vsc" {
+  name = "${data.opennebula_group.primary.name}_vsc"
+  lifecycle {
+    enabled = var.vsc_ip != null || var.vsc
+  }
+}
+
 resource "opennebula_virtual_router_nic" "external" {
   floating_ip       = true
   floating_only     = true
@@ -78,6 +85,7 @@ resource "opennebula_virtual_router_nic" "external" {
   depends_on        = [opennebula_virtual_router_instance.main]
   model             = "virtio"
 }
+
 
 data "opennebula_virtual_network_address_range" "internal" {
   virtual_network_id = data.opennebula_virtual_network.internal.id
@@ -91,4 +99,15 @@ resource "opennebula_virtual_router_nic" "internal" {
   depends_on        = [opennebula_virtual_router_nic.external]
   model             = "virtio"
   ip                = data.opennebula_virtual_network_address_range.internal.ip4
+}
+resource "opennebula_virtual_router_nic" "vsc" {
+  floating_ip = true
+  virtual_router_id = opennebula_virtual_router.main.id
+  network_id = data.opennebula_virtual_network.vsc.id
+  depends_on        = [opennebula_virtual_router_nic.internal]
+  model             = "virtio"
+  ip                = var.vsc_ip
+  lifecycle {
+    enabled = data.opennebula_virtual_network.vsc != null
+  }
 }
