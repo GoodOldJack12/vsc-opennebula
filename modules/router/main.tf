@@ -7,10 +7,10 @@ data "opennebula_group" "primary" {
 }
 
 locals {
-  router-name = "${data.opennebula_group.primary.name}_router"
+  router-name = "${data.opennebula_group.primary.name}_${var.vsc ? "router_vsc" : "router"}"
   base_context = {
     NETWORK        = "YES"
-    HOSTNAME       = "${local.router-name}"
+    SET_HOSTNAME   = "${local.router-name}"
     SSH_PUBLIC_KEY = "$USER[SSH_PUBLIC_KEY]"
     START_SCRIPT   = "${var.start_script}"
   }
@@ -30,7 +30,7 @@ locals {
 }
 
 data "opennebula_template" "base" {
-  name = "vr"
+  name = var.vsc ? "vr_vsc" : "vr"
 }
 
 resource "opennebula_virtual_router" "main" {
