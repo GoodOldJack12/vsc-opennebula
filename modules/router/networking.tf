@@ -1,6 +1,6 @@
 locals {
   public_network_suffix = var.vsc ? "_vsc" : "_public"
-  vm_network_suffix = var.vsc ? "_vm_vsc" : "_vm"
+  vm_network_suffix     = var.vsc ? "_vm_vsc" : "_vm"
 }
 
 

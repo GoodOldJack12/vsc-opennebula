@@ -14,7 +14,7 @@ output "vsc_ip" {
   description = "VSC IP"
   value = var.vsc ? [
     for nic in opennebula_virtual_machine.main.nic :
-    nic.computed_ip if nic.network_id == data.opennebula_virtual_network.vsc.id][0] : null
+  nic.computed_ip if nic.network_id == data.opennebula_virtual_network.vsc.id][0] : null
 }
 output "router_access" {
   description = "Returns information for the router module."

@@ -60,7 +60,7 @@ variable "is_windows" {
   type        = bool
 }
 variable "group" {
-  default = ""
+  default     = ""
   description = "Opennebula group to create the virtual machine for."
-  type = string
+  type        = string
 }

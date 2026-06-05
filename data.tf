@@ -3,7 +3,7 @@ data "opennebula_user" "me" {
 }
 data "opennebula_group" "primary" {
   name = var.group != "" ? var.group : null
-  id = var.group == "" ? data.opennebula_user.me.primary_group : null
+  id   = var.group == "" ? data.opennebula_user.me.primary_group : null
 }
 
 data "opennebula_image" "image" {

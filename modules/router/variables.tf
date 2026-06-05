@@ -12,7 +12,7 @@ variable "port_forwards" {
     internal_ip   = optional(string)
     internal_port = optional(number)
     external_port = number
-    network = optional(string, "public")
+    network       = optional(string, "public")
   }))
   default = {}
   validation {
@@ -34,11 +34,11 @@ variable "port_forwards" {
 }
 
 variable "group" {
-  default = ""
+  default     = ""
   description = "Opennebula group to create this router for. There should only be ONE router per group."
-  type = string
+  type        = string
 }
 variable "vsc" {
   default = false
-  type = bool
+  type    = bool
 }
