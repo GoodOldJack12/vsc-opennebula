@@ -13,7 +13,6 @@ module "vsc-opennebula" {
   rootdisk_size = 100 # Give Windows some more space
   memory        = 6
   cpu           = 8
-  vcpu          = 8
   is_windows    = true
 }
 output "services" {

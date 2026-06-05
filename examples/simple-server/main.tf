@@ -9,7 +9,7 @@ module "SimpleVM" {
   source     = "hpcugent/opennebula/vsc"
   version    = "0.0.3"
   vm_name    = "SimpleExample"
-  image_name = "Rocky 9"
+  image_name = "Rocky Linux 9"
   is_windows = false
 }
 output "services" {
