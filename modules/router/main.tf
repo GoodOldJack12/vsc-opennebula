@@ -2,14 +2,15 @@ data "opennebula_user" "me" {
   name = chomp(split(":", file("~/.one/one_auth"))[0])
 }
 data "opennebula_group" "primary" {
-  id = data.opennebula_user.me.primary_group
+  name = var.group != "" ? var.group : null
+  id   = var.group == "" ? data.opennebula_user.me.primary_group : null
 }
 
 locals {
-  router-name = "${data.opennebula_group.primary.name}_router"
+  router-name = "${data.opennebula_group.primary.name}_${var.vsc ? "router_vsc" : "router"}"
   base_context = {
     NETWORK        = "YES"
-    HOSTNAME       = "${local.router-name}"
+    SET_HOSTNAME   = "${local.router-name}"
     SSH_PUBLIC_KEY = "$USER[SSH_PUBLIC_KEY]"
     START_SCRIPT   = "${var.start_script}"
   }
@@ -29,7 +30,7 @@ locals {
 }
 
 data "opennebula_template" "base" {
-  name = "vr1"
+  name = var.vsc ? "vr_vsc" : "vr"
 }
 
 resource "opennebula_virtual_router" "main" {
@@ -37,7 +38,7 @@ resource "opennebula_virtual_router" "main" {
   instance_template_id = data.opennebula_template.base.id
 }
 data "opennebula_image" "image" {
-  name = "vr1"
+  name = "vr"
 }
 # Resource to help trigger a replace
 resource "terraform_data" "port-forwards" {
@@ -59,29 +60,4 @@ resource "opennebula_virtual_router_instance" "main" {
     create_before_destroy = true
     replace_triggered_by  = [terraform_data.port-forwards]
   }
-}
-
-data "opennebula_virtual_network" "external" {
-  name = "altaria.vip"
-}
-
-data "opennebula_virtual_network" "internal" {
-  name = "altaria.test"
-}
-
-resource "opennebula_virtual_router_nic" "external" {
-  floating_ip       = true
-  floating_only     = true
-  virtual_router_id = opennebula_virtual_router.main.id
-  network_id        = data.opennebula_virtual_network.external.id
-  depends_on        = [opennebula_virtual_router_instance.main]
-  model             = "virtio"
-}
-
-resource "opennebula_virtual_router_nic" "internal" {
-  floating_ip       = true
-  virtual_router_id = opennebula_virtual_router.main.id
-  network_id        = data.opennebula_virtual_network.internal.id
-  depends_on        = [opennebula_virtual_router_nic.external]
-  model             = "virtio"
 }

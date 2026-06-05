@@ -5,7 +5,7 @@ provider "opennebula" {
 }
 variables {
   vm_name    = "SimpleExampleTest"
-  image_name = "Rocky 9"
+  image_name = "Rocky Linux 9"
   is_windows = false
 }
 run "mainVM" {

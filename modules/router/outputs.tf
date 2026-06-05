@@ -11,3 +11,6 @@ output "services_list" {
     }
   )
 }
+output "private-ip" {
+  value = opennebula_virtual_router_nic.internal.ip
+}

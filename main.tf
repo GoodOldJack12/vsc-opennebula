@@ -1,5 +1,5 @@
 locals {
-  windows_start_script = "net user Admin ${try(random_pet.windows[0].id, "")}"
+  windows_start_script = "net user Admin ${try(random_pet.windows.id, "")}"
   base_context = {
     NETWORK        = "YES"
     SET_HOSTNAME   = "${var.vm_name}"
@@ -7,7 +7,7 @@ locals {
     GROW_ROOTFS    = "YES"
   }
   windows_context = {
-    START_SCRIPT = "net user Admin ${try(random_pet.windows[0].id, "")}"
+    START_SCRIPT = "net user Admin ${try(random_pet.windows.id, "")}"
   }
   linux_context = {
     START_SCRIPT = "${var.start_script}"
@@ -19,7 +19,7 @@ resource "opennebula_virtual_machine" "main" {
   name        = var.vm_name
   description = "VM"
   cpu         = coalesce(var.cpu, data.opennebula_template.template.cpu)
-  vcpu        = coalesce(var.vcpu, data.opennebula_template.template.vcpu, 4)
+  vcpu        = coalesce(var.cpu, data.opennebula_template.template.cpu)
   memory      = try((var.memory * 1024), data.opennebula_template.template.memory)
   cpumodel {
     model = "host-passthrough"
@@ -44,14 +44,12 @@ resource "opennebula_virtual_machine" "main" {
   on_disk_change = "RECREATE"
 
   nic {
-    network_id      = data.opennebula_virtual_network.main.id
-    security_groups = [opennebula_security_group.main.id]
+    network_id = data.opennebula_virtual_network.main.id
   }
   dynamic "nic" {
     for_each = var.vsc ? [0] : []
     content {
-      network_id      = data.opennebula_virtual_network.vsc.id
-      security_groups = [opennebula_security_group.main.id]
+      network_id = data.opennebula_virtual_network.vsc.id
     }
   }
   dynamic "template_section" {
@@ -59,9 +57,9 @@ resource "opennebula_virtual_machine" "main" {
     content {
       name = "TOPOLOGY"
       elements = {
-        "CORES"   = coalesce(var.vcpu, data.opennebula_template.template.vcpu),
+        "CORES"   = coalesce(var.cpu / 2, data.opennebula_template.template.cpu / 2),
         "SOCKETS" = 1,
-        "THREADS" = 1,
+        "THREADS" = 2,
       }
     }
   }

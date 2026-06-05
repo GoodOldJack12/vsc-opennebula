@@ -22,16 +22,10 @@ variable "cpu" {
   description = "Real CPU cores allocated to the VM"
   default     = null
 }
-variable "vcpu" {
-  type        = number
-  description = "Virtual CPUs that the VM will see. DOES improve multi-thread performance."
-  default     = null
-
-}
 variable "template" {
   description = "Template to apply to the VM. Default should be OK unless you need a GPU."
   type        = string
-  default     = "TestFlavor" # To be changed
+  default     = "UserDefault" # To be changed
 }
 variable "vsc" {
   description = "Enable VSC network."
@@ -60,33 +54,13 @@ variable "start_script" {
     error_message = "start_script is incompatible with Windows!"
   }
 }
-variable "firewall_rules" {
-  description = "List of firewall rules that apply to this VM. protocol (ALL|TCP|UDP|TCMP|IPSEC),range (portA,portB-portX), rule_type (INBOUND|OUTBOUND)"
-  type = list(object({
-    protocol  = string
-    rule_type = optional(string, "INBOUND")
-    range     = string
-  }))
-  default = []
-  validation {
-    condition     = length(var.firewall_rules) == 0 ? true : (anytrue([for v in var.firewall_rules : can(regex("^(INBOUND|OUTBOUND)$", v.rule_type))]))
-    error_message = "rule_type must be INBOUND or OUTBOUND"
-  }
-  validation {
-    condition     = length(var.firewall_rules) == 0 ? true : (anytrue([for v in var.firewall_rules : can(regex("^(ALL|TCP|UDP|ICMP|IPSEC)$", v.protocol))]))
-    error_message = "protocol must be ALL, TCP, UDP, ICMP or IPSEC"
-  }
-}
-variable "firewall_services" {
-  description = "quick alternative to firewall_rules for known services"
-  type        = list(string)
-  validation {
-    condition     = alltrue([for s in var.firewall_services : contains(keys(local.service-templates), s)])
-    error_message = "Unknown service! Valid services: ${join(",", keys(local.service-templates))}"
-  }
-  default = []
-}
+
 variable "is_windows" {
   description = "Set true if image is windows based"
   type        = bool
+}
+variable "group" {
+  default     = ""
+  description = "Opennebula group to create the virtual machine for."
+  type        = string
 }

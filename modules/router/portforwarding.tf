@@ -16,7 +16,7 @@ variable "access_vm" {
   default = null
 }
 locals {
-  port_forwards_from_vms = merge(
+  port_forwards_from_vms = var.access_vm == null ? {} : merge(
     { "${local.router-name}-ssh" = {
       internal_ip   = var.access_vm.ip
       external_port = var.access_vm.ssh_port
@@ -50,10 +50,8 @@ locals {
     )
   }
   primary_vm_output = [
-    for command in var.access_vm.commands :
+    for command in try(var.access_vm.commands, []) :
     replace(command, var.access_vm.ip, opennebula_virtual_router_nic.external.ip)
   ]
 
 }
-
-
