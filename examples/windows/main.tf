@@ -8,7 +8,7 @@ module "router" {
 module "vsc-opennebula" {
   source        = "hpcugent/opennebula/vsc"
   version       = "0.0.5"
-  vm_name       = "JonTest"
+  vm_name       = "WindowsExample"
   image_name    = "Windows 11"
   rootdisk_size = 100 # Give Windows some more space
   memory        = 6
