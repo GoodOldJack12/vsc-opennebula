@@ -1,5 +1,5 @@
 locals {
-  vm_network_suffix     = var.vsc ? (var.use_demo_format ? "_vm" : "-private") : (var.use_demo_format ? "_vm_vsc" : "-private-vsc")
+  vm_network_suffix     = var.vsc ? (var.use_demo_format ? "_vm_vsc" : "-private-vsc") : (var.use_demo_format ? "_vm" : "-private")
   public_network_suffix = var.vsc ? "vsc" : "public"
 
   public_net = var.vsc ? "vsc" : "public"
