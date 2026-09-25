@@ -7,7 +7,7 @@ terraform {
   }
 }
 provider "opennebula" {
-  endpoint = "http://localhost:2633/RPC2"
+  endpoint = "https://cloudpr4.ugent.be:2633/RPC2"
   username = chomp(split(":", file("~/.one/one_auth"))[0])
   password = chomp(split(":", file("~/.one/one_auth"))[1])
 }
