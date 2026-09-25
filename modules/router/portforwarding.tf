@@ -1,10 +1,3 @@
-locals {
-  ugent_port_range = {
-    min = 51001
-    max = 59999
-  }
-}
-
 variable "access_vm" {
   type = object({
     ip          = string
