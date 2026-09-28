@@ -58,6 +58,7 @@ variable "start_script" {
 variable "is_windows" {
   description = "Set true if image is windows based"
   type        = bool
+  default     = false
 }
 variable "group" {
   default     = ""

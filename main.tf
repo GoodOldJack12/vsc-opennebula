@@ -66,4 +66,14 @@ resource "opennebula_virtual_machine" "main" {
       }
     }
   }
+  lifecycle {
+    postcondition {
+      condition     = self.memory <= local.MAX_MEMORY
+      error_message = "Memory may not exceed ${local.MAX_MEMORY} Mib."
+    }
+    postcondition {
+      condition     = self.cpu <= local.MAX_CPU
+      error_message = "CPU may not exceed ${local.MAX_CPU}."
+    }
+  }
 }
