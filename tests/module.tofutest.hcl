@@ -4,9 +4,12 @@ provider "opennebula" {
   password = chomp(split(":", file("~/.one/one_auth"))[1])
 }
 variables {
-  vm_name    = "SimpleExampleTest"
-  image_name = "Rocky Linux 9"
-  is_windows = false
+  vm_name       = "SimpleExampleTest"
+  image_name    = "Rocky Linux 9"
+  is_windows    = false
+  cpu           = 2
+  memory        = 4
+  rootdisk_size = 30
 }
 run "mainVM" {
 

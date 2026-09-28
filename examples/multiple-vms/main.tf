@@ -16,18 +16,24 @@ module "router" {
   }
 }
 module "Main" {
-  source       = "hpcugent/opennebula/vsc"
-  version      = "0.0.8"
-  vm_name      = "MultipleExampleMain"
-  image_name   = "Rocky Linux 9"
-  start_script = "dnf install -y nginx && systemctl enable --now nginx" # Run install script on creation
+  source        = "hpcugent/opennebula/vsc"
+  version       = "0.0.8"
+  vm_name       = "MultipleExampleMain"
+  image_name    = "Rocky Linux 9"
+  start_script  = "dnf install -y nginx && systemctl enable --now nginx" # Run install script on creation
+  cpu           = 2
+  memory        = 4 #Gib
+  rootdisk_size = 30
 }
 module "Secondary" {
-  source       = "hpcugent/opennebula/vsc"
-  version      = "0.0.8"
-  vm_name      = "MultipleExampleSecondary"
-  image_name   = "Ubuntu 24.04"
-  start_script = "apt install -y nginx && systemctl enable --now nginx" # Run install script on creation
+  source        = "hpcugent/opennebula/vsc"
+  version       = "0.0.8"
+  vm_name       = "MultipleExampleSecondary"
+  image_name    = "Ubuntu 24.04"
+  start_script  = "apt install -y nginx && systemctl enable --now nginx" # Run install script on creation
+  cpu           = 2
+  memory        = 4 #Gib
+  rootdisk_size = 30
 }
 output "services" {
   value = module.router.services_list # Output the port-forwardings of the router
