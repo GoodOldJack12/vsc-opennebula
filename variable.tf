@@ -62,3 +62,8 @@ variable "group" {
   description = "Opennebula group to create the virtual machine for."
   type        = string
 }
+variable "user" {
+  default = null
+  description = "Username used to connect via SSH"
+  type = string
+}

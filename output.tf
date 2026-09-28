@@ -28,7 +28,7 @@ output "router_access" {
   }
 }
 locals {
-  ssh-user = var.is_windows ? "Admin" : "root"
+  ssh-user = var.is_windows ? coalesce(var.user,"Admin") : coalesce(var.user,"root")
   ports = {
     ssh   = 22
     http  = 80
