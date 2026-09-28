@@ -10,7 +10,6 @@ module "SimpleVM" {
   version    = "0.0.8"
   vm_name    = "SimpleExample"
   image_name = "Rocky Linux 9"
-  is_windows = false
 }
 output "services" {
   value = module.router.services_list # Output the port-forwardings of the router

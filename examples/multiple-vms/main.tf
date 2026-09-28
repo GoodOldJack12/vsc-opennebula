@@ -21,7 +21,6 @@ module "Main" {
   vm_name      = "MultipleExampleMain"
   image_name   = "Rocky Linux 9"
   start_script = "dnf install -y nginx && systemctl enable --now nginx" # Run install script on creation
-  is_windows   = false
 }
 module "Secondary" {
   source       = "hpcugent/opennebula/vsc"
@@ -29,7 +28,6 @@ module "Secondary" {
   vm_name      = "MultipleExampleSecondary"
   image_name   = "Ubuntu 24.04"
   start_script = "apt install -y nginx && systemctl enable --now nginx" # Run install script on creation
-  is_windows   = false
 }
 output "services" {
   value = module.router.services_list # Output the port-forwardings of the router
