@@ -30,3 +30,17 @@ jobs:
       - run: tofu version
       - run: chmod +x tests/*.sh
       - run: ${{ matrix.check.run }}
+  version-check:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    name: version-check
+    steps:
+      - uses: actions/checkout@v4
+      - id: latest
+        uses: pozetroninc/github-action-get-latest-release@v0.8.0
+        with:
+          repository: ${{ github.repository }}
+      - run: chmod +x tests/*.sh
+      - run: ./tests/version-bump.test.sh
+        env:
+          LATEST_RELEASE: ${{ steps.latest.outputs.release }}
