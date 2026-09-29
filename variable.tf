@@ -8,19 +8,16 @@ locals {
   rootdisk_size = (var.is_windows ? max(var.rootdisk_size, 70) : var.rootdisk_size) * 1024
 }
 variable "rootdisk_size" {
-  description = "Size of the bootdisk in Gibibyte"
-  default     = 30
+  description = "Size of the bootdisk in Gibibyte. Will be forced to 70 or higher if is_windows is set to 'true'."
   type        = number
 }
 variable "memory" {
-  description = "Memory allocated to the VM in Gibibytes"
+  description = "Memory allocated to the VM in Gibibytes."
   type        = number
-  default     = null
 }
 variable "cpu" {
   type        = number
   description = "Real CPU cores allocated to the VM"
-  default     = null
 }
 variable "template" {
   description = "Template to apply to the VM. Default should be OK unless you need a GPU."
@@ -63,5 +60,10 @@ variable "is_windows" {
 variable "group" {
   default     = ""
   description = "Opennebula group to create the virtual machine for."
+  type        = string
+}
+variable "user" {
+  default     = null
+  description = "Username used to connect via SSH"
   type        = string
 }
