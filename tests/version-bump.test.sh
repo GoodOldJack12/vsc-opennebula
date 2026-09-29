@@ -24,7 +24,7 @@ semver_format='^[0-9]+\.[0-9]+\.[0-9]+$'
 highest=$(printf '%s\n%s\n' "$LATEST_RELEASE" "$current" | sort -V | tail -n1)
 
 if [[ "$current" == "$LATEST_RELEASE" || "$highest" != "$current" ]]; then
-  error "Version $current must be higher than latest release $LATEST_RELEASE"
+  error "New version must be higher than latest release! New version: $current. Latest release: $LATEST_RELEASE"
 fi
 
-success "Version $current > latest release $LATEST_RELEASE"
+success "New version $current > latest release $LATEST_RELEASE"
