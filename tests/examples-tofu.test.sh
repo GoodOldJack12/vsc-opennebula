@@ -4,7 +4,8 @@ if [[ -f "common.sh" ]];then
 elif [[ -d tests ]];then
     source tests/common.sh
 else
-    error "Can't find common.sh!"
+    echo "Can't find common.sh!" >&2
+    exit 1
 fi
 : "${ROOT_DIR:=$(pwd)}"
 
