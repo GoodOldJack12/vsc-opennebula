@@ -63,7 +63,7 @@ variable "group" {
   type        = string
 }
 variable "user" {
-  default = null
+  default     = null
   description = "Username used to connect via SSH"
-  type = string
+  type        = string
 }
