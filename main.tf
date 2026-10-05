@@ -34,10 +34,17 @@ resource "opennebula_virtual_machine" "main" {
     size     = local.rootdisk_size
   }
   dynamic "disk" {
-    for_each = var.disks
+    for_each = { for k, d in var.disks : k => d if d.image_id == null }
     content {
       size          = disk.value.size * 1024
       volatile_type = "fs"
+    }
+  }
+
+  dynamic "disk" {
+    for_each = { for k, d in var.disks : k => d if d.image_id != null }
+    content {
+      image_id = disk.value.image_id
     }
   }
   on_disk_change = "RECREATE"

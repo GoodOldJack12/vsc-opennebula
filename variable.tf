@@ -32,10 +32,21 @@ variable "vsc" {
 variable "disks" {
   description = "List of disks to attach to the VM."
   type = map(object({
-    size       = number
-    filesystem = optional(string, "ext4")
+    size       = optional(number)
+    image_id      = optional(string)
   }))
   default = {}
+
+  validation {
+    condition = alltrue([
+      for name, d in var.disks : (
+        d.image_id != null
+        ? (d.size == null)
+        : (d.size != null)
+      )
+    ])
+    error_message = "`image_id` is mutually exclusive with `size`!"
+  }
 }
 variable "custom_context" {
   description = "Custom opennebula context to append to the VM."
