@@ -58,7 +58,7 @@ variable "custom_context" {
   default     = {}
 }
 variable "start_script" {
-  description = "Script that runs ONCE after VM creation"
+  description = "Script that runs every boot. Changing this value will execute the script immediately."
   type        = string
   default     = "echo"
   validation {
