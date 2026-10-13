@@ -57,8 +57,6 @@ resource "opennebula_virtual_machine" "main" {
       image_id = disk.value.disk_id
     }
   }
-  on_disk_change = "RECREATE"
-
   nic {
     network_id = data.opennebula_virtual_network.main.id
   }
@@ -89,6 +87,5 @@ resource "opennebula_virtual_machine" "main" {
       condition     = self.cpu <= local.MAX_CPU
       error_message = "CPU may not exceed ${local.MAX_CPU}."
     }
-    ignore_changes = [ disk ]
   }
 }
