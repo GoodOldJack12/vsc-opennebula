@@ -5,11 +5,15 @@ variable "image_name" {
   description = "Name of the OS Image. See `oneimage list`."
 }
 locals {
-  rootdisk_size = (var.is_windows ? max(var.rootdisk_size, 70) : var.rootdisk_size) * 1024
+  rootdisk_size = var.rootdisk_size * 1024
 }
 variable "rootdisk_size" {
-  description = "Size of the bootdisk in Gibibyte. Will be forced to 70 or higher if is_windows is set to 'true'."
+  description = "Size of the bootdisk in Gibibyte. Needs to be manually resized after apply."
   type        = number
+  validation {
+    condition = !var.is_windows || (var.is_windows && var.rootdisk_size >= 70)
+    error_message = "Windows disk should at least 70Gib!"
+  }
 }
 variable "memory" {
   description = "Memory allocated to the VM in Gibibytes."
