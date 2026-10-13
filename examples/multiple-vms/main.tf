@@ -30,7 +30,7 @@ module "Secondary" {
   version       = "0.0.10"
   vm_name       = "MultipleExampleSecondary"
   image_name    = "Ubuntu 24.04"
-  start_script  = "apt install -y nginx && systemctl enable --now nginx" # Run install script on creation
+  start_script  = "apt update && apt install -y nginx && systemctl enable --now nginx" # Run install script on creation
   cpu           = 2
   memory        = 4 #Gib
   rootdisk_size = 30
