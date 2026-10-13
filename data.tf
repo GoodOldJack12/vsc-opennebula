@@ -15,9 +15,6 @@ data "opennebula_group" "group" {
   id   = var.group == "" ? data.opennebula_user.me.groups[0] : null
 }
 
-data "opennebula_image" "image" {
-  name = var.image_name
-}
 data "opennebula_template" "template" {
   name = var.template
 }

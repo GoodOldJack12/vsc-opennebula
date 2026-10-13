@@ -14,7 +14,26 @@ locals {
   }
   final_context = merge(local.base_context, var.custom_context, (var.is_windows ? local.windows_context : local.linux_context))
 }
-
+module "rootdisk" {
+  source = "./modules/disk"
+  group = data.opennebula_group.group.name
+  user = data.opennebula_user.me.name
+  disk_type = "image"
+  image_name = var.image_name
+  name = "${var.vm_name}_root"
+  persistent = true
+}
+module "disks" {
+  for_each = var.disks
+  source = "./modules/disk"
+  group = data.opennebula_group.group.name
+  user = data.opennebula_user.me.name
+  disk_type = each.value.image_id == null ? "disk" : "image"
+  image_id = each.value.image_id
+  size = try(each.value.size * 1024,null)
+  name = each.key
+  persistent = true
+}
 resource "opennebula_virtual_machine" "main" {
   name        = var.vm_name
   description = "VM"
@@ -30,21 +49,12 @@ resource "opennebula_virtual_machine" "main" {
     machine = "q35"
   }
   disk {
-    image_id = data.opennebula_image.image.id
-    size     = local.rootdisk_size
+    image_id = module.rootdisk.disk_id
   }
   dynamic "disk" {
-    for_each = { for k, d in var.disks : k => d if d.image_id == null }
+    for_each = module.disks
     content {
-      size          = disk.value.size * 1024
-      volatile_type = "fs"
-    }
-  }
-
-  dynamic "disk" {
-    for_each = { for k, d in var.disks : k => d if d.image_id != null }
-    content {
-      image_id = disk.value.image_id
+      image_id = disk.value.disk_id
     }
   }
   on_disk_change = "RECREATE"
@@ -79,5 +89,6 @@ resource "opennebula_virtual_machine" "main" {
       condition     = self.cpu <= local.MAX_CPU
       error_message = "CPU may not exceed ${local.MAX_CPU}."
     }
+    ignore_changes = [ disk ]
   }
 }
