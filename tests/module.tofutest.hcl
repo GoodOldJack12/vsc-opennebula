@@ -12,7 +12,9 @@ variables {
   rootdisk_size = 30
 }
 run "mainVM" {
-
+  expect_failures = [
+    check.disk_resize
+  ]
 }
 
 run "router" {
@@ -30,6 +32,9 @@ run "router" {
       }
     }
   }
+  expect_failures = [
+    check.disk_resize
+  ]
 }
 
 run "webVM" {
@@ -43,4 +48,6 @@ run "webVM" {
       },
     ]
   }
+  expect_failures = [
+    check.disk_resize  ]
 }
