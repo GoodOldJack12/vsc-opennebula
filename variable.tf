@@ -11,7 +11,7 @@ variable "rootdisk_size" {
   description = "Size of the bootdisk in Gibibyte. Needs to be manually resized after apply."
   type        = number
   validation {
-    condition = !var.is_windows || (var.is_windows && var.rootdisk_size >= 70)
+    condition     = !var.is_windows || (var.is_windows && var.rootdisk_size >= 70)
     error_message = "Windows disk should at least 70Gib!"
   }
 }
@@ -36,8 +36,8 @@ variable "vsc" {
 variable "disks" {
   description = "List of disks to attach to the VM."
   type = map(object({
-    size       = optional(number)
-    image_id      = optional(string)
+    size     = optional(number)
+    image_id = optional(string)
   }))
   default = {}
 

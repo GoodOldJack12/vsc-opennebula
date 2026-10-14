@@ -49,5 +49,6 @@ run "webVM" {
     ]
   }
   expect_failures = [
-    check.disk_resize  ]
+    check.disk_resize
+  ]
 }

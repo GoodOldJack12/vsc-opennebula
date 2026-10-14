@@ -6,7 +6,7 @@ check "disk_resize" {
 }
 check "disk_count" {
   assert {
-    condition = (length(opennebula_virtual_machine.main.disk) - 1) == length(var.disks)
+    condition     = (length(opennebula_virtual_machine.main.disk) - 1) == length(var.disks)
     error_message = "Some disks in var.disks are not mounted. Mount them to the VM manually!"
   }
 }

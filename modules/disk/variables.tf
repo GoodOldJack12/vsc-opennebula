@@ -53,18 +53,18 @@ variable "image_name" {
   description = "Name of the image to clone. If multiple images exist, use `image_id` instead."
 }
 variable "name" {
-  type = string
+  type        = string
   description = "name of the image"
 }
 variable "persistent" {
-  type = bool
+  type    = bool
   default = false
 }
 variable "group" {
-  type = string
+  type        = string
   description = "group in which the disk needs to be created"
 }
 variable "user" {
-  type = string
+  type        = string
   description = "user that owns the disk"
 }

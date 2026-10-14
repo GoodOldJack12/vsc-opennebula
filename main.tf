@@ -15,23 +15,23 @@ locals {
   final_context = merge(local.base_context, var.custom_context, (var.is_windows ? local.windows_context : local.linux_context))
 }
 module "rootdisk" {
-  source = "./modules/disk"
-  group = data.opennebula_group.group.name
-  user = data.opennebula_user.me.name
-  disk_type = "image"
+  source     = "./modules/disk"
+  group      = data.opennebula_group.group.name
+  user       = data.opennebula_user.me.name
+  disk_type  = "image"
   image_name = var.image_name
-  name = "${var.vm_name}_root"
+  name       = "${var.vm_name}_root"
   persistent = true
 }
 module "disks" {
-  for_each = var.disks
-  source = "./modules/disk"
-  group = data.opennebula_group.group.name
-  user = data.opennebula_user.me.name
-  disk_type = each.value.image_id == null ? "disk" : "image"
-  image_id = each.value.image_id
-  size = try(each.value.size * 1024,null)
-  name = each.key
+  for_each   = var.disks
+  source     = "./modules/disk"
+  group      = data.opennebula_group.group.name
+  user       = data.opennebula_user.me.name
+  disk_type  = each.value.image_id == null ? "disk" : "image"
+  image_id   = each.value.image_id
+  size       = try(each.value.size * 1024, null)
+  name       = each.key
   persistent = true
 }
 resource "opennebula_virtual_machine" "main" {
