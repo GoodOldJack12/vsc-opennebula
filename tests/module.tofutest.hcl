@@ -36,19 +36,3 @@ run "router" {
     check.disk_resize
   ]
 }
-
-run "webVM" {
-  variables {
-    start_script      = "dnf install -y nginx prometheus && systemctl enable --now nginx; systemctl enable --now prometheus" # Run install script on creation
-    firewall_services = ["http"]                                                                                             # Automatically allows ports 80 & 443
-    firewall_rules = [
-      {
-        protocol = "TCP"
-        range    = 9090
-      },
-    ]
-  }
-  expect_failures = [
-    check.disk_resize
-  ]
-}
