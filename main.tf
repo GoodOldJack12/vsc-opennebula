@@ -20,7 +20,7 @@ module "rootdisk" {
   user       = data.opennebula_user.me.name
   disk_type  = "image"
   image_name = var.image_name
-  name       = "${var.vm_name}_root"
+  name       = "${var.vm_name}_root_${substr(md5(var.image_name), 0, 6)}"
   persistent = true
 }
 module "disks" {
@@ -88,5 +88,9 @@ resource "opennebula_virtual_machine" "main" {
       error_message = "CPU may not exceed ${local.MAX_CPU}."
     }
     ignore_changes = [ disk ]
+    replace_triggered_by = [ terraform_data.image ]
   }
+}
+resource "terraform_data" "image" {
+  input = var.image_name
 }
