@@ -4,7 +4,6 @@ provider "opennebula" {
   password = chomp(split(":", file("~/.one/one_auth"))[1])
 }
 variables {
-  vm_name       = "SimpleExampleTest"
   image_name    = "Rocky Linux 9"
   is_windows    = false
   cpu           = 2
@@ -15,24 +14,26 @@ run "mainVM" {
   expect_failures = [
     check.disk_resize
   ]
-}
-
-run "router" {
   variables {
-    access_vm = run.MainVM.router_access
+    vm_name       = "SimpleExampleTest"
+  }
+}
+run "router" {
+  module {
+    source = "./modules/router"
+  }
+  variables {
+    access_vm = run.mainVM.router_access
     port_forwards = {
       http = {
         external_port = 80
-        ip            = run.webVM.ip
+        ip            = run.mainVM.ip
       }
       prometheus = { # Define a port forward rule for the second VM
         external_port = 59999
         internal_port = 9090
-        ip            = run.webVM.ip
+        ip            = run.mainVM.ip
       }
     }
   }
-  expect_failures = [
-    check.disk_resize
-  ]
 }
