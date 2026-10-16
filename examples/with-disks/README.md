@@ -1,7 +1,7 @@
 # Server with disks example
 This example illustrates how to create a server with disks.
 
-**Due to an upstream bug, disks can only be -added-, and resizing is not supported (They can be resized via CLI/Web UI, however).**
+**Due to an upstream bug, disks can only be added or removed upon initial creation, and resizing is not supported (They can be resized via CLI/Web UI, however).**
 
 ## Use
 1) (**First time only**) Run `tofu init`
