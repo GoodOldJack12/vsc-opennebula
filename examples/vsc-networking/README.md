@@ -8,11 +8,16 @@ This example illustrates how to run a simple server with access to the VSC netwo
 ## Connecting to the VM
 After running `tofu apply`, you will see something like:
 ```
-services = {
+VSCServices = {
   "Primary VM" = [
-    "ssh root@10.141.2.51",
+    "ssh root@172.24.49.191",
+  ]
+}
+publicServices = {
+  "Primary VM" = [
+    "ssh root@193.190.80.90",
   ]
 }
 ```
-You can use that command to connect to your VM.
+You can use those commands to connect to your VM.
 If you forgot the details, you can always run `tofu output` to see the outputs again.
