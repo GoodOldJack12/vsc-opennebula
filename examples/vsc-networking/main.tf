@@ -12,7 +12,7 @@ output "publicServices" {
 module "VSCrouter" {
   source    = "hpcugent/opennebula/vsc//modules/router"
   version   = "0.0.11"
-  vsc       = true                          # Connect to VSC Public net and VSC Internal net
+  vsc       = true                             # Connect to VSC Public net and VSC Internal net
   access_vm = module.SimpleVSCVM.router_access # Optional, adds SSH forwarding automatically.
 }
 output "VSCServices" {
