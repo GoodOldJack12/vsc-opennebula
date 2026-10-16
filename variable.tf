@@ -5,11 +5,15 @@ variable "image_name" {
   description = "Name of the OS Image. See `oneimage list`."
 }
 locals {
-  rootdisk_size = (var.is_windows ? max(var.rootdisk_size, 70) : var.rootdisk_size) * 1024
+  rootdisk_size = var.rootdisk_size * 1024
 }
 variable "rootdisk_size" {
-  description = "Size of the bootdisk in Gibibyte. Will be forced to 70 or higher if is_windows is set to 'true'."
+  description = "Size of the bootdisk in Gibibyte. Needs to be manually resized after apply."
   type        = number
+  validation {
+    condition     = !var.is_windows || (var.is_windows && var.rootdisk_size >= 70)
+    error_message = "Windows disk should at least 70Gib!"
+  }
 }
 variable "memory" {
   description = "Memory allocated to the VM in Gibibytes."
@@ -32,10 +36,21 @@ variable "vsc" {
 variable "disks" {
   description = "List of disks to attach to the VM."
   type = map(object({
-    size       = number
-    filesystem = optional(string, "ext4")
+    size     = optional(number)
+    image_id = optional(string)
   }))
   default = {}
+
+  validation {
+    condition = alltrue([
+      for name, d in var.disks : (
+        d.image_id != null
+        ? (d.size == null)
+        : (d.size != null)
+      )
+    ])
+    error_message = "`image_id` is mutually exclusive with `size`!"
+  }
 }
 variable "custom_context" {
   description = "Custom opennebula context to append to the VM."
@@ -43,7 +58,7 @@ variable "custom_context" {
   default     = {}
 }
 variable "start_script" {
-  description = "Script that runs ONCE after VM creation"
+  description = "Script that runs every boot. Changing this value will execute the script immediately."
   type        = string
   default     = "echo"
   validation {
