@@ -87,8 +87,8 @@ resource "opennebula_virtual_machine" "main" {
       condition     = self.cpu <= local.MAX_CPU
       error_message = "CPU may not exceed ${local.MAX_CPU}."
     }
-    ignore_changes = [ disk ]
-    replace_triggered_by = [ terraform_data.image ]
+    ignore_changes       = [disk]
+    replace_triggered_by = [terraform_data.image]
   }
 }
 resource "terraform_data" "image" {

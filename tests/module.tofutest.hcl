@@ -15,7 +15,7 @@ run "mainVM" {
     check.disk_resize
   ]
   variables {
-    vm_name       = "SimpleExampleTest"
+    vm_name = "SimpleExampleTest"
   }
 }
 run "router" {
