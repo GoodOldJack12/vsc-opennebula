@@ -2,6 +2,10 @@
 OpenTofu module to deploy opennebula VMs on Tier1 VSC Cloud.
 
 ## Usage
+
+First, read the [VSC Cloud documentation](https://docs.vscentrum.be/cloud/pilot/opentofu.html).
+You may also find this module on the [OpenTofu Registry](https://search.opentofu.org/module/hpcugent/opennebula/vsc/latest)
+
 For example use cases, check out the [examples](./examples/) directory.
 
 This module is made with **[OpenTofu](https://opentofu.org/)**, a Terraform fork. **Do not** run it with Terraform, since it uses OpenTofu specific features.
@@ -19,6 +23,7 @@ Then, run `tofu init`.
 Finally, run `tofu apply`.
 
 ## Development
+Some of the inner workings of the module are explained on the [wiki](https://github.com/hpcugent/terraform-vsc-opennebula/wiki) of this repository.
 If you want to test the examples with your working directory, run `./fixup-examples.sh local` This will set the `source` parameter for all the modules to use the local version. Running `./fixup-examples.sh remote` will then do the opposite.
 
 There is a pre-commit hook available that will check if your examples are set to remote mode before comitting. You can install it by running `./pre-commit.sh install`
