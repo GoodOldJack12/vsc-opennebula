@@ -22,12 +22,6 @@ variable "port_forwards" {
   }
   description = "List of port forwarding rules. Map of objects with following attributes: external_port (required), internal_port, internal_ip"
 }
-
-variable "group" {
-  default     = ""
-  description = "Opennebula group to create this router for. There should only be ONE router per group."
-  type        = string
-}
 variable "vsc" {
   default     = false
   description = "Enable to connect the router to the VSC network. Only ONE per group and you need to have requested access to the VSC network."

@@ -16,8 +16,6 @@ locals {
 }
 module "rootdisk" {
   source     = "./modules/disk"
-  group      = data.opennebula_group.group.name
-  user       = data.opennebula_user.me.name
   disk_type  = "image"
   image_name = var.image_name
   name       = "${var.vm_name}_root_${substr(md5(var.image_name), 0, 6)}"
@@ -26,8 +24,6 @@ module "rootdisk" {
 module "disks" {
   for_each   = var.disks
   source     = "./modules/disk"
-  group      = data.opennebula_group.group.name
-  user       = data.opennebula_user.me.name
   disk_type  = each.value.image_id == null ? "disk" : "image"
   image_id   = each.value.image_id
   size       = try(each.value.size * 1024, null)
@@ -40,7 +36,6 @@ resource "opennebula_virtual_machine" "main" {
   cpu         = coalesce(var.cpu, data.opennebula_template.template.cpu)
   vcpu        = coalesce(var.cpu, data.opennebula_template.template.cpu)
   memory      = try((var.memory * 1024), data.opennebula_template.template.memory)
-  group       = data.opennebula_group.group.name
   template_id = data.opennebula_template.template.id
   context     = local.final_context
   os {
