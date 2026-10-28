@@ -1,11 +1,6 @@
 data "opennebula_user" "me" {
   id = -1
 }
-variable "use_demo_format" {
-  type        = bool
-  default     = false
-  description = "Use VSC demo project format. Only change for dev purposes."
-}
 data "opennebula_group" "group" {
   id = -1
 }

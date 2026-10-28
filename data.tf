@@ -1,9 +1,3 @@
-variable "use_demo_format" {
-  type        = bool
-  default     = false
-  description = "Use VSC demo project format. Only change for dev purposes."
-}
-
 data "opennebula_user" "me" {
   id = -1
 }
