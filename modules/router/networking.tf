@@ -19,9 +19,19 @@ resource "opennebula_virtual_router_nic" "external" {
   floating_only     = true
   virtual_router_id = opennebula_virtual_router.main.id
   network_id        = data.opennebula_virtual_network.external.id
-  depends_on        = [opennebula_virtual_router_instance.main]
+  depends_on        = [opennebula_virtual_router_nic.internal]
   model             = "virtio"
 }
+resource "opennebula_virtual_router_nic" "extra" {
+  count = (var.external_ips - 1)
+  floating_ip       = true
+  floating_only     = true
+  virtual_router_id = opennebula_virtual_router.main.id
+  network_id        = data.opennebula_virtual_network.external.id
+  depends_on        = [opennebula_virtual_router_nic.external]
+  model             = "virtio"
+}
+
 
 
 data "opennebula_virtual_network_address_range" "internal" {
@@ -33,7 +43,6 @@ resource "opennebula_virtual_router_nic" "internal" {
   floating_ip       = true
   virtual_router_id = opennebula_virtual_router.main.id
   network_id        = data.opennebula_virtual_network.internal.id
-  depends_on        = [opennebula_virtual_router_nic.external]
   model             = "virtio"
   ip                = data.opennebula_virtual_network_address_range.internal.ip4
 }

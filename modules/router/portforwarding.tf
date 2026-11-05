@@ -9,11 +9,13 @@ variable "access_vm" {
   default = null
 }
 locals {
+  external_ips = concat([opennebula_virtual_router_nic.external.ip], opennebula_virtual_router_nic.extra[*].ip)
   port_forwards_from_vms = var.access_vm == null ? {} : merge(
     { "${local.router-name}-ssh" = {
       internal_ip   = var.access_vm.ip
       external_port = var.access_vm.ssh_port
       internal_port = var.access_vm.ssh_port
+      external_ip_id   = 0
     } },
     var.access_vm.include_rdp ? {
       "${local.router-name}-rdp" = {
@@ -28,7 +30,7 @@ locals {
       internal_ip   = coalesce(pf.internal_ip, var.access_vm.ip)
       internal_port = coalesce(pf.internal_port, pf.external_port)
       external_port = pf.external_port
-      external_ip   = "<ETH0_EP0>"
+      external_ip   = local.external_ips[pf.external_ip_id]
     }
   ]
   port_forward_context = {

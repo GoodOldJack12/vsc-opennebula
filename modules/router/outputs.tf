@@ -7,7 +7,7 @@ output "services_list" {
   value = merge(
     { "Primary VM" = local.primary_vm_output },
     { for name, svc in var.port_forwards :
-      "${name}" => "${opennebula_virtual_router_nic.external.ip}:${svc.external_port}"
+        "${name}" => "${ svc.external_ip_id == 0 ? opennebula_virtual_router_nic.external.ip : opennebula_virtual_router_nic.extra[svc.external_ip_id -1].ip}:${svc.external_port}"
     }
   )
 }
