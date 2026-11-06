@@ -58,7 +58,7 @@ variable "custom_context" {
   default     = {}
 }
 variable "start_script" {
-  description = "Script that runs every boot. Changing this value will execute the script immediately."
+  description = "Script that runs every boot. Changing this value will execute the script immediately. Incompatible with Windows."
   type        = string
   default     = "echo"
   validation {
