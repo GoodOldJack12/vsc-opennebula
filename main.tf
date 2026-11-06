@@ -11,7 +11,7 @@ locals {
     INIT_SCRIPTS   = "vsc_vm_routes.sh"
   }
   windows_context = {
-    START_SCRIPT = "net user Admin ${try(random_pet.windows.id, "")}"
+    START_SCRIPT = "net user Admin ${try(random_pet.windows.id, "")}; sc.exe config sshd start= auto; net start sshd"
   }
   linux_context = {
     START_SCRIPT = "${var.start_script}"
