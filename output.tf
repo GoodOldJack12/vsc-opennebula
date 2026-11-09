@@ -24,6 +24,7 @@ output "router_access" {
 }
 output "windows_password" {
   value = random_pet.windows.id
+  sensitive = true
 }
 locals {
   ssh-user = var.is_windows ? coalesce(var.user, "Admin") : coalesce(var.user, "root")
@@ -33,5 +34,5 @@ locals {
     https = 443
     rdp   = 3389
   }
-  ssh-command = "ssh ${local.ssh-user}@${opennebula_virtual_machine.main.ip} ${var.is_windows ? }"
+  ssh-command = "ssh ${local.ssh-user}@${opennebula_virtual_machine.main.ip}"
 }
