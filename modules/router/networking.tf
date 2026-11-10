@@ -23,7 +23,7 @@ resource "opennebula_virtual_router_nic" "external" {
   model             = "virtio"
 }
 resource "opennebula_virtual_router_nic" "extra" {
-  count = (var.external_ips - 1)
+  count             = (var.external_ips - 1)
   floating_ip       = true
   floating_only     = true
   virtual_router_id = opennebula_virtual_router.main.id

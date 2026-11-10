@@ -22,8 +22,8 @@ locals {
     ONEAPP_VNF_LB_ENABLED             = "NO",
     # NAT
     ONEAPP_VNF_NAT4_ENABLED        = "YES"
-    ONEAPP_VNF_NAT4_INTERFACES_OUT = join(" ",slice(local.router_interfaces,1,length(local.router_interfaces)))
-    ONEAPP_VNF_ROUTER4_INTERFACES  = join(" ",local.router_interfaces)
+    ONEAPP_VNF_NAT4_INTERFACES_OUT = join(" ", slice(local.router_interfaces, 1, length(local.router_interfaces)))
+    ONEAPP_VNF_ROUTER4_INTERFACES  = join(" ", local.router_interfaces)
   }
   final_context = merge(local.base_context, local.network_context, local.port_forward_context)
 }

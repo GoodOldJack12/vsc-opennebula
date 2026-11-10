@@ -11,10 +11,10 @@ locals {
   external_ips = concat([opennebula_virtual_router_nic.external.ip], opennebula_virtual_router_nic.extra[*].ip)
   port_forwards_from_vm = var.access_vm == null ? {} : {
     "VM-SSH" = {
-      internal_ip   = var.access_vm.ip
-      external_port = var.access_vm.ssh_port
-      internal_port = var.access_vm.ssh_port
-      external_ip_id   = 0
+      internal_ip    = var.access_vm.ip
+      external_port  = var.access_vm.ssh_port
+      internal_port  = var.access_vm.ssh_port
+      external_ip_id = 0
     }
   }
   all_port_forwards = [
@@ -37,6 +37,6 @@ locals {
     )
   }
   primary_vm_output = replace(var.access_vm.command, var.access_vm.ip, opennebula_virtual_router_nic.external.ip)
-  
+
 
 }

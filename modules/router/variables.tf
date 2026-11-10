@@ -1,9 +1,9 @@
 variable "port_forwards" {
   type = map(object({
-    internal_ip   = optional(string)
-    internal_port = optional(number)
-    external_port = number
-    external_ip_id = optional(number,0)
+    internal_ip    = optional(string)
+    internal_port  = optional(number)
+    external_port  = number
+    external_ip_id = optional(number, 0)
   }))
   default = {}
   validation {
@@ -30,11 +30,11 @@ variable "port_forwards" {
         )
       ])
     )
-    error_message = "external_ip_id must be one of ${join(",",range(1,var.external_ips))}"
+    error_message = "external_ip_id must be one of ${join(",", range(1, var.external_ips))}"
   }
-  
+
   description = "List of port forwarding rules. Map of objects with following attributes: external_port (required), internal_port, internal_ip, external_ip_id"
-  
+
 }
 variable "vsc" {
   default     = false
@@ -42,11 +42,11 @@ variable "vsc" {
   type        = bool
 }
 variable "external_ips" {
-  default = 1
+  default     = 1
   description = "Amount of external IPs"
-  type = number
+  type        = number
   validation {
-    condition = var.external_ips > 0
+    condition     = var.external_ips > 0
     error_message = "You need at least one external IP!"
   }
 }

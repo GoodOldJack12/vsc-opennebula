@@ -7,8 +7,8 @@ locals {
     GROW_ROOTFS    = "YES"
   }
   vsc_context = {
-    FILES_DS       = "$FILE[IMAGE_ID=${data.opennebula_image.vsc_routes.id}]"
-    INIT_SCRIPTS   = "vsc_vm_routes.sh"
+    FILES_DS     = "$FILE[IMAGE_ID=${data.opennebula_image.vsc_routes.id}]"
+    INIT_SCRIPTS = "vsc_vm_routes.sh"
   }
   windows_context = {
     START_SCRIPT = "net user Admin ${try(random_pet.windows.id, "")}; sc.exe config sshd start= auto; net start sshd"
@@ -16,7 +16,7 @@ locals {
   linux_context = {
     START_SCRIPT = "${var.start_script}"
   }
-  final_context = merge(local.base_context, var.custom_context, (var.is_windows ? local.windows_context : local.linux_context), ( ( !var.is_windows && var.vsc ) ? local.vsc_context : null ))
+  final_context = merge(local.base_context, var.custom_context, (var.is_windows ? local.windows_context : local.linux_context), ((!var.is_windows && var.vsc) ? local.vsc_context : null))
 }
 module "rootdisk" {
   source     = "./modules/disk"
