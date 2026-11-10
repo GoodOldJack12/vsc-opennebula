@@ -12,7 +12,6 @@ locals {
     SET_HOSTNAME   = "${local.router-name}"
     SSH_PUBLIC_KEY = "$USER[SSH_PUBLIC_KEY]"
   }
-  router_interfaces = formatlist("eth%d", range(var.external_ips + 1))
   network_context = {
     # Turn off features we don't use
     ONEAPP_VNF_SDNAT4_ONEGATE_ENABLED = "NO"
@@ -22,8 +21,8 @@ locals {
     ONEAPP_VNF_LB_ENABLED             = "NO",
     # NAT
     ONEAPP_VNF_NAT4_ENABLED        = "YES"
-    ONEAPP_VNF_NAT4_INTERFACES_OUT = join(" ", slice(local.router_interfaces, 1, length(local.router_interfaces)))
-    ONEAPP_VNF_ROUTER4_INTERFACES  = join(" ", local.router_interfaces)
+    ONEAPP_VNF_NAT4_INTERFACES_OUT = "eth1"
+    ONEAPP_VNF_ROUTER4_INTERFACES  = "eth0 eth1"
   }
   final_context = merge(local.base_context, local.network_context, local.port_forward_context)
 }

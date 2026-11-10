@@ -22,17 +22,6 @@ resource "opennebula_virtual_router_nic" "external" {
   depends_on        = [opennebula_virtual_router_nic.internal]
   model             = "virtio"
 }
-resource "opennebula_virtual_router_nic" "extra" {
-  count             = (var.external_ips - 1)
-  floating_ip       = true
-  floating_only     = true
-  virtual_router_id = opennebula_virtual_router.main.id
-  network_id        = data.opennebula_virtual_network.external.id
-  depends_on        = [opennebula_virtual_router_nic.external]
-  model             = "virtio"
-}
-
-
 
 data "opennebula_virtual_network_address_range" "internal" {
   virtual_network_id = data.opennebula_virtual_network.internal.id
