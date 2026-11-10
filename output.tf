@@ -23,7 +23,7 @@ output "router_access" {
   }
 }
 output "windows_password" {
-  value = random_pet.windows.id
+  value = try(random_pet.windows.id,null)
   sensitive = true
 }
 locals {
