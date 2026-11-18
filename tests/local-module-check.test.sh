@@ -22,7 +22,7 @@ while IFS= read -r -d '' file; do
         error "Version $version not found in ${file#"$ROOT_DIR"/}" noexit
         failed=1
     fi
-done < <(find "$ROOT_DIR/examples" -type f -name main.tf -print0)
+done < <(find "$ROOT_DIR/examples" -type f -name main.tf -print0 -maxdepth 2)
 
 if [[ "$failed" -ne 0 ]]; then
     exit 1
