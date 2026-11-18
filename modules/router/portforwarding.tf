@@ -37,7 +37,7 @@ locals {
       pf.internal_port
     )
   }
-  primary_vm_output = replace(var.access_vm.command, var.access_vm.ip, opennebula_virtual_router_nic.external.ip)
+  primary_vm_output = var.access_vm == null ? {} : { "Primary VM" = replace(var.access_vm.command, var.access_vm.ip, opennebula_virtual_router_nic.external.ip) }
 
 
 }
