@@ -1,16 +1,20 @@
 variable "access_vm" {
   type = object({
     ip          = string
+    vsc_ip      = string
     ssh_port    = number
-    include_rdp = bool
     command     = string
   })
   default = null
+  validation {
+    condition = !var.vsc || var.access_vm == null || var.access_vm != null && (var.vsc && var.access_vm.vsc_ip != "")
+    error_message = "VSC Router access VM must have `vsc = true` set! (No local vsc IP found)"
+  }
 }
 locals {
   port_forwards_from_vm = var.access_vm == null ? {} : {
     "VM-SSH" = {
-      internal_ip   = var.access_vm.ip
+      internal_ip   = var.vsc ? var.access_vm.vsc_ip : var.access_vm.ip
       external_port = var.access_vm.ssh_port
       internal_port = var.access_vm.ssh_port
     }
