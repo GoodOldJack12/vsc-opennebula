@@ -78,6 +78,7 @@ resource "opennebula_virtual_machine" "main" {
         "SOCKETS"       = 1,
         "THREADS"       = 2,
         "HUGEPAGE_SIZE" = 1024, # Since this is in the base template, removing it is not allowed.
+        "NUMA_NODES"    = 2
       }
     }
   }
