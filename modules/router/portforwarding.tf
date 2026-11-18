@@ -1,13 +1,13 @@
 variable "access_vm" {
   type = object({
-    ip          = string
-    vsc_ip      = string
-    ssh_port    = number
-    command     = string
+    ip       = string
+    vsc_ip   = string
+    ssh_port = number
+    command  = string
   })
   default = null
   validation {
-    condition = !var.vsc || var.access_vm == null || var.access_vm != null && (var.vsc && var.access_vm.vsc_ip != "")
+    condition     = !var.vsc || var.access_vm == null || var.access_vm != null && (var.vsc && var.access_vm.vsc_ip != "")
     error_message = "VSC Router access VM must have `vsc = true` set! (No local vsc IP found)"
   }
 }

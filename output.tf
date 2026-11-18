@@ -13,7 +13,7 @@ locals {
 }
 output "vsc_ip" {
   description = "VSC IP"
-  value = local.vsc_ip
+  value       = local.vsc_ip
 }
 output "router_access" {
   description = "Returns information for the router module."
