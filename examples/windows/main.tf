@@ -18,3 +18,7 @@ module "vsc-opennebula" {
 output "services" {
   value = module.router.services_list # Output the port-forwardings of the router
 }
+output "password" {
+  value     = module.vsc-opennebula.windows_password
+  sensitive = true # Add --show-sensitive to see in clear text
+}
